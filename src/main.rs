@@ -4,6 +4,7 @@ use macroquad::prelude::{clear_background, Conf, next_frame};
 
 mod player;
 mod map;
+mod ray;
 
 static MAP_SIZE_X: u8 = 8;
 static MAP_SIZE_Y: u8 = 8;
