@@ -30,7 +30,7 @@ async fn main() {
     loop {
         clear_background(LIGHTGRAY);
         map.draw_minimap();
-        map.display_rays(&player);
+        map.draw_3d(&player);
         get_user_input(&mut player);
         map.move_player(&player);
 

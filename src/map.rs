@@ -1,7 +1,7 @@
 use std::f32::consts::PI;
 use macroquad::prelude::*;
 use crate::player::Player;
-use crate::ray::compute_ray;
+use crate::ray::{compute_ray, get_distance};
 
 pub struct Map {
     map_size_x: u8,
@@ -19,8 +19,6 @@ impl Map {
             map_array,
         }
     }
-
-
 
     pub fn move_player(&self, player: &Player) {
         draw_rectangle(
@@ -66,7 +64,7 @@ impl Map {
 
     }
 
-    pub fn display_rays(&self, player: &Player) {
+    pub fn draw_3d(&self, player: &Player) {
         let pi_degrees: f32 = PI / 180.;
 
         let mut ray_angle: f32= player.get_angle() - pi_degrees * 30.;
@@ -78,10 +76,25 @@ impl Map {
             ray_angle -= 2. * PI;
         }
 
-        for _ray_index in 0..60 {
+        for ray_index in 0..60 {
             let result_ray = compute_ray(self, player, ray_angle);
 
-            if let Some(ray) = result_ray {
+            if let Some(mut ray) = result_ray {
+                let ray_distance : f32 = get_distance(&mut ray);
+                let mut line_height : f32 = self.map_size as f32 * 320. / ray_distance;
+                if line_height > 320. {
+                    line_height = 320.;
+                }
+
+                let line_x_offset : f32= 160. - line_height / 2.;
+
+                draw_line(ray_index as f32 * 8. + 530.,
+                          line_x_offset,
+                          ray_index as f32 * 8. + 530.,
+                          line_height + line_x_offset,
+                          8.,
+                          RED);
+
                 draw_line(
                     ray.x_start,
                     ray.y_start,
