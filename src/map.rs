@@ -80,7 +80,19 @@ impl Map {
             let result_ray = compute_ray(self, player, ray_angle);
 
             if let Some(mut ray) = result_ray {
-                let ray_distance : f32 = get_distance(&mut ray);
+                let mut ray_distance: f32 = get_distance(&mut ray);
+
+                let mut angle_fix_fisheye: f32 = player.get_angle() - ray_angle;
+                if angle_fix_fisheye < 0. {
+                    angle_fix_fisheye += 2. * PI;
+                }
+
+                if angle_fix_fisheye > 2. * PI {
+                    angle_fix_fisheye -= 2. * PI;
+                }
+
+                ray_distance = ray_distance * angle_fix_fisheye.cos();
+
                 let mut line_height : f32 = self.map_size as f32 * 320. / ray_distance;
                 if line_height > 320. {
                     line_height = 320.;
