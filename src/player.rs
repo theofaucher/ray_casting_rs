@@ -63,52 +63,35 @@ impl Player {
         self.delta_y
     }
 
+    pub fn get_angle(&self) -> f32 {
+        self.angle
+    }
+
     pub fn move_forward(&mut self) {
         self.update_x_position(self.get_delta_x() as i32);
         self.update_y_position(self.get_delta_y() as i32);
-        /*if (self.get_y_position() - self.get_speed()) >= (self.get_size() as f32/2.) as u32 {
-            self.update_y_position(-(self.get_speed() as i32));
-        } else {
-            self.set_y_position((self.get_size() as f32/2.) as u32);
-        }*/
     }
 
     pub fn move_backward(&mut self) {
         self.update_x_position(-(self.get_delta_x() as i32));
         self.update_y_position(-(self.get_delta_y() as i32));
-        /*if (self.get_y_position() + (self.get_size() as f32/2.) as u32) < 512 {
-            self.update_y_position(self.get_speed() as i32);
-        } else {
-            self.set_y_position(512 - (self.get_size() as f32/2.) as u32);
-        }*/
     }
 
     pub fn turn_right(&mut self) {
-        self.angle += 0.1;
-        if self.angle > 2. * PI as f32 {
-            self.angle = -2. * PI as f32;
+        self.angle += self.get_speed() as f32 / 50.;
+        if self.angle > 6.26573 {
+            self.angle -= 2. * PI as f32;
         }
         self.delta_x = self.angle.cos() * self.get_speed() as f32;
         self.delta_y = self.angle.sin() * self.get_speed() as f32;
-        /*if (self.get_x_position() + (self.get_size() as f32/2.) as u32) < 512 {
-            self.update_x_position(self.get_speed() as i32);
-        } else {
-            self.set_x_position(512 - (self.get_size() as f32/2.) as u32);
-        }*/
     }
 
     pub fn turn_left(&mut self) {
-        self.angle -= 0.1;
+        self.angle -= self.get_speed() as f32 / 50.;
         if self.angle < 0. {
-            self.angle = 2. * PI as f32;
+            self.angle += 2. * PI as f32;
         }
         self.delta_x = self.angle.cos() * self.get_speed() as f32;
         self.delta_y = self.angle.sin() * self.get_speed() as f32;
-
-        /*if (self.get_x_position() - self.get_speed()) >= (self.get_size() as f32/2.) as u32 {
-            self.update_x_position(-(self.get_speed() as i32));
-        } else {
-            self.set_x_position((self.get_size() as f32/2.) as u32);
-        }*/
     }
 }

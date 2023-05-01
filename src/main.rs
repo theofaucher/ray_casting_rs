@@ -28,9 +28,10 @@ async fn main() {
 
     loop {
         clear_background(LIGHTGRAY);
-        map.draw();
+        map.draw_minimap();
+        map.display_rays(&player);
         get_user_input(&mut player);
-        map.move_player(& player);
+        map.move_player(&player);
 
         next_frame().await
     }
