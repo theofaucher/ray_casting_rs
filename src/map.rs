@@ -18,12 +18,21 @@ impl Map {
         }
     }
 
-    pub fn move_player(&self, player : Player) {
+    pub fn move_player(&self, player : &Player) {
         draw_rectangle(
             player.get_x_position() as f32 - (player.get_size() as f32 / 2.),
             player.get_y_position() as f32 - (player.get_size() as f32 / 2.),
             player.get_size() as f32,
             player.get_size() as f32,
+            DARKGREEN,
+        );
+
+        draw_line(
+            player.get_x_position() as f32,
+            player.get_y_position() as f32,
+            player.get_x_position() as f32 + player.get_delta_x() * player.get_speed() as f32,
+            player.get_y_position() as f32 + player.get_delta_y() * player.get_speed() as f32,
+            5.,
             DARKGREEN,
         );
     }
@@ -37,7 +46,7 @@ impl Map {
                         pos_y as f32 * self.map_size as f32,
                         self.map_size as f32,
                         self.map_size as f32,
-                        DARKGRAY,
+                        BLACK,
                     );
                 }
             }
